@@ -1,0 +1,60 @@
+name: personatwin
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-personatwin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-personatwin}
+      POSTGRES_DB: ${POSTGRES_DB:-personatwin}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-personatwin} -d ${POSTGRES_DB:-personatwin}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks: [internal]
+
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      ENVIRONMENT: ${ENVIRONMENT:-development}
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-personatwin}:${POSTGRES_PASSWORD:-personatwin}@postgres:5432/${POSTGRES_DB:-personatwin}
+      JWT_SECRET: ${JWT_SECRET:-change-me-to-a-long-random-string-change-me}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:8080,http://localhost:5173}
+      AI_PROVIDER: ${AI_PROVIDER:-demo}
+      AI_API_KEY: ${AI_API_KEY:-}
+      AI_MODEL: ${AI_MODEL:-}
+      AI_EFFORT: ${AI_EFFORT:-medium}
+      EMBEDDING_PROVIDER: ${EMBEDDING_PROVIDER:-local}
+      EMBEDDING_API_KEY: ${EMBEDDING_API_KEY:-}
+      # Trust X-Forwarded-For only from proxies on the private network (the nginx frontend).
+      FORWARDED_ALLOW_IPS: ${FORWARDED_ALLOW_IPS:-172.16.0.0/12}
+    ports:
+      - "8000:8000"
+    networks: [internal]
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: ""
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "8080:80"
+    networks: [internal]
+
+volumes:
+  pgdata:
+
+networks:
+  internal:

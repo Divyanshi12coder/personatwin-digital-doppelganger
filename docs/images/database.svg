@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" font-family="Consolas, 'Segoe UI Mono', monospace">
+  <defs>
+    <style>
+      .h{fill:#4A2C1A}
+      .ht{font-family:'Segoe UI',Inter,Arial,sans-serif;font-size:14px;font-weight:700;fill:#FFF9ED}
+      .b{fill:#fff;stroke:#E6D9BF;stroke-width:1.5}
+      .f{font-size:11.5px;fill:#4A2C1A}
+      .k{font-size:11.5px;fill:#B3860F;font-weight:700}
+      .v{font-size:11.5px;fill:#6B4226;font-weight:700}
+      .r{stroke:#806B5A;stroke-width:1.4;fill:none;stroke-dasharray:5 4}
+    </style>
+  </defs>
+  <rect width="1200" height="640" rx="20" fill="#FFF9ED"/>
+  <text x="40" y="46" font-family="Georgia,serif" font-size="26" font-weight="700" fill="#4A2C1A">Database schema (PostgreSQL + pgvector)</text>
+  <text x="40" y="70" font-family="'Segoe UI',Inter,Arial,sans-serif" font-size="13" fill="#806B5A">Every private table carries user_id with ON DELETE CASCADE. Embedding columns are vector(384) with HNSW cosine indexes.</text>
+
+  <!-- users -->
+  <g transform="translate(470 96)">
+    <rect class="b" width="260" height="128" rx="10"/><rect class="h" width="260" height="30" rx="10"/><rect class="h" y="18" width="260" height="12"/>
+    <text class="ht" x="12" y="20">users</text>
+    <text class="k" x="12" y="50">id PK</text>
+    <text class="f" x="12" y="68">email UNIQUE · full_name</text>
+    <text class="f" x="12" y="86">password_hash (bcrypt)</text>
+    <text class="f" x="12" y="104">token_version · is_active</text>
+    <text class="f" x="12" y="120">created_at · updated_at</text>
+  </g>
+
+  <!-- 1:1 tables -->
+  <g transform="translate(40 96)">
+    <rect class="b" width="250" height="112" rx="10"/><rect class="h" width="250" height="30" rx="10"/><rect class="h" y="18" width="250" height="12"/>
+    <text class="ht" x="12" y="20">mentor_profiles (1:1)</text>
+    <text class="k" x="12" y="50">user_id FK UNIQUE</text>
+    <text class="f" x="12" y="68">mentor_name · bio</text>
+    <text class="f" x="12" y="86">expertise_areas · mentoring_domains</text>
+    <text class="f" x="12" y="104">onboarding_completed</text>
+  </g>
+  <g transform="translate(40 230)">
+    <rect class="b" width="250" height="148" rx="10"/><rect class="h" width="250" height="30" rx="10"/><rect class="h" y="18" width="250" height="12"/>
+    <text class="ht" x="12" y="20">personality_profiles (1:1)</text>
+    <text class="k" x="12" y="50">user_id FK UNIQUE</text>
+    <text class="f" x="12" y="68">communication_style · tone</text>
+    <text class="f" x="12" y="86">teaching_approach · decision_style</text>
+    <text class="f" x="12" y="104">encouragement_style · response_length</text>
+    <text class="f" x="12" y="122">formality · directness · warmth · humor</text>
+    <text class="f" x="12" y="140">values · philosophy_* · boundaries</text>
+  </g>
+  <g transform="translate(40 400)">
+    <rect class="b" width="250" height="112" rx="10"/><rect class="h" width="250" height="30" rx="10"/><rect class="h" y="18" width="250" height="12"/>
+    <text class="ht" x="12" y="20">user_settings (1:1)</text>
+    <text class="k" x="12" y="50">user_id FK UNIQUE</text>
+    <text class="f" x="12" y="68">save_conversations · auto_remember</text>
+    <text class="f" x="12" y="86">use_conversation_memory · show_sources</text>
+    <text class="f" x="12" y="104">retrieval_top_k · min_relevance · creativity</text>
+  </g>
+
+  <!-- knowledge -->
+  <g transform="translate(910 96)">
+    <rect class="b" width="250" height="112" rx="10"/><rect class="h" width="250" height="30" rx="10"/><rect class="h" y="18" width="250" height="12"/>
+    <text class="ht" x="12" y="20">knowledge_documents</text>
+    <text class="k" x="12" y="50">id PK · user_id FK</text>
+    <text class="f" x="12" y="68">title · content · category</text>
+    <text class="f" x="12" y="86">source_type · source · char_count</text>
+    <text class="f" x="12" y="104">created_at · updated_at</text>
+  </g>
+  <g transform="translate(910 230)">
+    <rect class="b" width="250" height="112" rx="10"/><rect class="h" width="250" height="30" rx="10"/><rect class="h" y="18" width="250" height="12"/>
+    <text class="ht" x="12" y="20">knowledge_chunks</text>
+    <text class="k" x="12" y="50">document_id FK · user_id FK</text>
+    <text class="f" x="12" y="68">chunk_index · content</text>
+    <text class="v" x="12" y="86">embedding vector(384) · HNSW</text>
+    <text class="f" x="12" y="104">created_at</text>
+  </g>
+  <g transform="translate(910 364)">
+    <rect class="b" width="250" height="130" rx="10"/><rect class="h" width="250" height="30" rx="10"/><rect class="h" y="18" width="250" height="12"/>
+    <text class="ht" x="12" y="20">experience_memories</text>
+    <text class="k" x="12" y="50">id PK · user_id FK</text>
+    <text class="f" x="12" y="68">title · experience_type · importance</text>
+    <text class="f" x="12" y="86">situation · what_happened</text>
+    <text class="f" x="12" y="104">lesson_learned · do_differently</text>
+    <text class="v" x="12" y="122">embedding vector(384) · HNSW</text>
+  </g>
+
+  <!-- tags -->
+  <g transform="translate(910 516)">
+    <rect class="b" width="250" height="96" rx="10"/><rect class="h" width="250" height="30" rx="10"/><rect class="h" y="18" width="250" height="12"/>
+    <text class="ht" x="12" y="20">tags (+ 3 link tables)</text>
+    <text class="k" x="12" y="50">id PK · user_id FK</text>
+    <text class="f" x="12" y="68">name UNIQUE per user</text>
+    <text class="f" x="12" y="86">knowledge / experience / memory links</text>
+  </g>
+
+  <!-- conversations -->
+  <g transform="translate(470 270)">
+    <rect class="b" width="260" height="96" rx="10"/><rect class="h" width="260" height="30" rx="10"/><rect class="h" y="18" width="260" height="12"/>
+    <text class="ht" x="12" y="20">conversations</text>
+    <text class="k" x="12" y="50">id PK · user_id FK</text>
+    <text class="f" x="12" y="68">title · topic</text>
+    <text class="f" x="12" y="86">created_at · updated_at</text>
+  </g>
+  <g transform="translate(470 384)">
+    <rect class="b" width="260" height="130" rx="10"/><rect class="h" width="260" height="30" rx="10"/><rect class="h" y="18" width="260" height="12"/>
+    <text class="ht" x="12" y="20">messages</text>
+    <text class="k" x="12" y="50">conversation_id FK · user_id FK</text>
+    <text class="f" x="12" y="68">role · content · topic · feedback</text>
+    <text class="f" x="12" y="86">grounding · provider · model</text>
+    <text class="f" x="12" y="104">latency_ms · trace (step timings)</text>
+    <text class="f" x="12" y="122">created_at</text>
+  </g>
+  <g transform="translate(470 532)">
+    <rect class="b" width="260" height="84" rx="10"/><rect class="h" width="260" height="30" rx="10"/><rect class="h" y="18" width="260" height="12"/>
+    <text class="ht" x="12" y="20">message_sources</text>
+    <text class="k" x="12" y="50">message_id FK</text>
+    <text class="f" x="12" y="68">label · source_type · title · score · cited</text>
+  </g>
+  <g transform="translate(40 530)">
+    <rect class="b" width="250" height="86" rx="10"/><rect class="h" width="250" height="30" rx="10"/><rect class="h" y="18" width="250" height="12"/>
+    <text class="ht" x="12" y="20">conversation_memories</text>
+    <text class="k" x="12" y="50">user_id FK · message_id FK (SET NULL)</text>
+    <text class="v" x="12" y="68">title · content · embedding vector(384)</text>
+  </g>
+
+  <!-- relations -->
+  <path class="r" d="M470 140 H290"/>
+  <path class="r" d="M470 160 C 380 160, 380 290, 290 300"/>
+  <path class="r" d="M470 180 C 400 180, 400 440, 290 450"/>
+  <path class="r" d="M730 140 H910"/>
+  <path class="r" d="M1035 208 V230"/>
+  <path class="r" d="M730 180 C 820 180, 820 420, 910 420"/>
+  <path class="r" d="M600 224 V270"/>
+  <path class="r" d="M600 366 V384"/>
+  <path class="r" d="M600 514 V532"/>
+  <path class="r" d="M470 470 C 380 470, 380 560, 290 570"/>
+  <path class="r" d="M1035 494 V516"/>
+</svg>

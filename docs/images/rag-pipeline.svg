@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="430" viewBox="0 0 1200 430" font-family="Segoe UI, Inter, Arial, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 10 5 0 10z" fill="#D4A017"/>
+    </marker>
+    <style>
+      .c{fill:#fff;stroke:#E6D9BF;stroke-width:1.5}
+      .n{font-family:'Segoe Print','Comic Sans MS',cursive;font-size:20px;fill:#B3860F}
+      .t{font-size:14.5px;font-weight:700;fill:#4A2C1A}
+      .s{font-size:12px;fill:#806B5A}
+      .l{stroke:#D4A017;stroke-width:2;fill:none;marker-end:url(#a)}
+    </style>
+  </defs>
+  <rect width="1200" height="430" rx="20" fill="#FFF9ED"/>
+  <text x="40" y="46" font-family="Georgia,serif" font-size="26" font-weight="700" fill="#4A2C1A">Chat pipeline — one question, eight steps</text>
+  <text x="40" y="72" font-size="13" fill="#806B5A">Every step is timed and returned to the UI as a trace (“How this was made”). The raw prompt never leaves the backend.</text>
+
+  <g transform="translate(40 100)">
+    <rect class="c" width="250" height="130" rx="14"/>
+    <text class="n" x="16" y="30">01</text><text class="t" x="52" y="30">Understand</text>
+    <text class="s" x="16" y="58">topic (career, learning, …)</text>
+    <text class="s" x="16" y="76">intent (decision, personal, …)</text>
+    <text class="s" x="16" y="94">“have you ever…?” detection</text>
+    <text class="s" x="16" y="112">deterministic, no LLM call</text>
+  </g>
+  <g transform="translate(320 100)">
+    <rect class="c" width="250" height="130" rx="14"/>
+    <text class="n" x="16" y="30">02</text><text class="t" x="52" y="30">Retrieve</text>
+    <text class="s" x="16" y="58">embed query (384-d)</text>
+    <text class="s" x="16" y="76">pgvector &lt;=&gt; over chunks, episodes,</text>
+    <text class="s" x="16" y="94">conversation notes — WHERE user_id</text>
+    <text class="s" x="16" y="112">+ lexical bonus · min &amp; relative cutoff</text>
+  </g>
+  <g transform="translate(600 100)">
+    <rect class="c" width="250" height="130" rx="14"/>
+    <text class="n" x="16" y="30">03</text><text class="t" x="52" y="30">Persona</text>
+    <text class="s" x="16" y="58">style · tone · teaching approach</text>
+    <text class="s" x="16" y="76">sliders → register description</text>
+    <text class="s" x="16" y="94">values · philosophy · boundaries</text>
+    <text class="s" x="16" y="112">(persona memory)</text>
+  </g>
+  <g transform="translate(880 100)">
+    <rect class="c" width="280" height="130" rx="14"/>
+    <text class="n" x="16" y="30">04</text><text class="t" x="52" y="30">Assemble context</text>
+    <text class="s" x="16" y="58">label memories K# · E# · C#</text>
+    <text class="s" x="16" y="76">interleave by score, 9k-char budget</text>
+    <text class="s" x="16" y="94">C# marked “NOT a lived experience”</text>
+    <text class="s" x="16" y="112">wrapped in &lt;memory_context&gt; as data</text>
+  </g>
+
+  <g transform="translate(880 270)">
+    <rect class="c" width="280" height="130" rx="14"/>
+    <text class="n" x="16" y="30">05</text><text class="t" x="52" y="30">Prompt</text>
+    <text class="s" x="16" y="58">system: persona + grounding rules</text>
+    <text class="s" x="16" y="76">short-term memory: last 10 turns</text>
+    <text class="s" x="16" y="94">(citations stripped from history)</text>
+    <text class="s" x="16" y="112">user turn: context + question</text>
+  </g>
+  <g transform="translate(600 270)">
+    <rect width="250" height="130" rx="14" fill="#4A2C1A"/>
+    <text class="n" x="16" y="30" fill="#E7B84B" style="fill:#E7B84B">06</text><text x="52" y="30" font-size="14.5" font-weight="700" fill="#FFF9ED">Generate</text>
+    <text x="16" y="58" font-size="12" fill="#F8E8B0">Claude (adaptive thinking,</text>
+    <text x="16" y="76" font-size="12" fill="#F8E8B0">refusal fallbacks) · OpenAI · or</text>
+    <text x="16" y="94" font-size="12" fill="#F8E8B0">Demo composer (no key)</text>
+    <text x="16" y="112" font-size="12" fill="#F8E8B0">provider error → demo + notice</text>
+  </g>
+  <g transform="translate(320 270)">
+    <rect class="c" width="250" height="130" rx="14"/>
+    <text class="n" x="16" y="30">07</text><text class="t" x="52" y="30">Validate</text>
+    <text class="s" x="16" y="58">drop citations to unknown labels</text>
+    <text class="s" x="16" y="76">“I remember…” without an E# cite</text>
+    <text class="s" x="16" y="94">→ transparency note appended</text>
+    <text class="s" x="16" y="112">grounded / partial / ungrounded</text>
+  </g>
+  <g transform="translate(40 270)">
+    <rect class="c" width="250" height="130" rx="14"/>
+    <text class="n" x="16" y="30">08</text><text class="t" x="52" y="30">Persist (optional)</text>
+    <text class="s" x="16" y="58">messages + source snapshots</text>
+    <text class="s" x="16" y="76">opt-in conversation memory</text>
+    <text class="s" x="16" y="94">privacy mode: store nothing,</text>
+    <text class="s" x="16" y="112">client keeps short-term memory</text>
+  </g>
+
+  <path class="l" d="M290 165 H318"/>
+  <path class="l" d="M570 165 H598"/>
+  <path class="l" d="M850 165 H878"/>
+  <path class="l" d="M1020 230 V268"/>
+  <path class="l" d="M880 335 H852"/>
+  <path class="l" d="M600 335 H572"/>
+  <path class="l" d="M320 335 H292"/>
+</svg>

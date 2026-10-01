@@ -1,0 +1,123 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+    --paper-noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.29 0 0 0 0 0.17 0 0 0 0 0.10 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-cream font-sans text-ink antialiased;
+    background-image: var(--paper-noise);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display text-brown;
+    letter-spacing: -0.01em;
+  }
+
+  ::selection {
+    background: #f8e8b0;
+    color: #241a14;
+  }
+
+  :focus-visible {
+    outline: 3px solid #d4a017;
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* Notebook paper: faint ruled lines. */
+  .ruled {
+    background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 31px, rgba(128, 107, 90, 0.14) 31px, rgba(128, 107, 90, 0.14) 32px);
+  }
+
+  /* Ruled lines plus a mustard margin rule — the margin only appears where it
+     can't run through text. */
+  .ruled-margin {
+    background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 31px, rgba(128, 107, 90, 0.14) 31px, rgba(128, 107, 90, 0.14) 32px);
+  }
+  @media (min-width: 1024px) {
+    .ruled-margin {
+      background-image:
+        linear-gradient(to right, transparent 46px, rgba(212, 160, 23, 0.35) 46px, rgba(212, 160, 23, 0.35) 48px, transparent 48px),
+        repeating-linear-gradient(to bottom, transparent 0, transparent 31px, rgba(128, 107, 90, 0.14) 31px, rgba(128, 107, 90, 0.14) 32px);
+    }
+  }
+
+  .dot-grid {
+    background-image: radial-gradient(rgba(74, 44, 26, 0.12) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+
+  .card-paper {
+    @apply rounded-note border border-line bg-white/90 shadow-paper;
+    background-image: var(--paper-noise);
+  }
+  .card-paper.ruled {
+    background-image:
+      repeating-linear-gradient(to bottom, transparent 0, transparent 31px, rgba(128, 107, 90, 0.12) 31px, rgba(128, 107, 90, 0.12) 32px),
+      var(--paper-noise);
+  }
+
+  .label-hand {
+    @apply font-hand text-xl leading-none text-chocolate;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1 rounded-full border border-line bg-paper px-2.5 py-0.5 text-xs font-medium text-chocolate;
+  }
+
+  .skip-link {
+    @apply sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-brown focus:px-4 focus:py-2 focus:text-cream;
+  }
+
+  .prose-mentor p {
+    @apply mb-3 last:mb-0;
+  }
+  .prose-mentor ul,
+  .prose-mentor ol {
+    @apply mb-3 space-y-1 pl-5;
+  }
+  .prose-mentor ul {
+    @apply list-disc;
+  }
+  .prose-mentor ol {
+    @apply list-decimal;
+  }
+  .prose-mentor strong {
+    @apply font-semibold text-brown;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: #e6d9bf transparent;
+  }
+}
